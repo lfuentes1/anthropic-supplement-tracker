@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Upload, ChevronUp, ChevronDown, X } from 'lucide-react';
 import { Button } from './ui/button';
@@ -11,7 +10,7 @@ interface AddSupplementFormProps {
 }
 
 const AddSupplementForm = ({ onAddSupplement }: AddSupplementFormProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [supplementName, setSupplementName] = useState('');
   const [frontImage, setFrontImage] = useState<File | null>(null);
   const [nutritionImage, setNutritionImage] = useState<File | null>(null);
@@ -41,7 +40,7 @@ const AddSupplementForm = ({ onAddSupplement }: AddSupplementFormProps) => {
       setSupplementName('');
       setFrontImage(null);
       setNutritionImage(null);
-      setIsOpen(false);
+      // Removed setIsOpen(false) to keep it expanded
     }
   };
 
