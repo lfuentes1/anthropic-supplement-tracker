@@ -1,8 +1,12 @@
-
 import React, { useState } from 'react';
-import { Calendar, ChevronUp, ChevronDown } from 'lucide-react';
+import { Calendar, ChevronUp, ChevronDown, CalendarIcon } from 'lucide-react';
 import { Button } from './ui/button';
+import { Switch } from './ui/switch';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { Calendar as CalendarComponent } from './ui/calendar';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 import NutrientTable from './NutrientTable';
 import { FDA_DAILY_VALUES, FDADailyValue } from '../data/fdaDailyValues';
 import { Supplement } from './MySupplements';
@@ -14,6 +18,8 @@ interface IntakeTrackerProps {
 const IntakeTracker = ({ activeSupplements = [] }: IntakeTrackerProps) => {
   const [activeOpen, setActiveOpen] = useState(true);
   const [missingOpen, setMissingOpen] = useState(true);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [isToggleOn, setIsToggleOn] = useState(false);
 
   // Calculate active nutrients from checked supplements
   const getActiveNutrients = () => {
@@ -107,8 +113,46 @@ const IntakeTracker = ({ activeSupplements = [] }: IntakeTrackerProps) => {
           </div>
           <h2 className="text-xl font-semibold text-gray-900">Intake Tracker</h2>
         </div>
-        <div className="text-sm text-gray-500">
-          Today, {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+      </div>
+
+      {/* Daily Tracker Section */}
+      <div className="mb-6 space-y-4">
+        {/* Date Picker */}
+        <div className="flex items-center justify-center">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-64 justify-start text-left font-normal",
+                  !selectedDate && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {selectedDate ? format(selectedDate, "MM/dd/yyyy") : <span>Pick a date</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="center">
+              <CalendarComponent
+                mode="single"
+                selected={selectedDate}
+                onSelect={setSelectedDate}
+                initialFocus
+                className={cn("p-3 pointer-events-auto")}
+                disabled={(date) => date > new Date()}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        {/* Toggle On/Off */}
+        <div className="flex items-center justify-center space-x-3">
+          <span className="text-sm font-medium text-gray-700">Daily Tracker</span>
+          <Switch
+            checked={isToggleOn}
+            onCheckedChange={setIsToggleOn}
+            className="data-[state=checked]:bg-green-500"
+          />
         </div>
       </div>
       
