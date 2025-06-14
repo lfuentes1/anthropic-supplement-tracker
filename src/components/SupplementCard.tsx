@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { ChevronUp, ChevronDown, X, Sparkles } from 'lucide-react';
+import { ChevronUp, ChevronDown, X, Sparkles, Plus } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Checkbox } from './ui/checkbox';
@@ -127,11 +128,11 @@ const SupplementCard = ({ supplement, onUpdate, onDelete, isChecked, onCheckedCh
                 type="number"
                 value={supplement.servingSize}
                 onChange={(e) => handleServingSizeChange(e.target.value)}
-                className="w-16 h-8 text-sm"
+                className="w-24 h-8 text-sm"
                 min="1"
               />
               <Select value={supplement.servingUnit} onValueChange={handleServingUnitChange}>
-                <SelectTrigger className="w-24 h-8 text-sm">
+                <SelectTrigger className="w-36 h-8 text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -155,14 +156,16 @@ const SupplementCard = ({ supplement, onUpdate, onDelete, isChecked, onCheckedCh
             ))}
           </div>
           
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleAddNutrient}
-            className="w-full mt-2"
-          >
-            Add Nutrient
-          </Button>
+          <div className="flex justify-center pt-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleAddNutrient}
+              className="rounded-full w-10 h-10 border-blue-300 hover:border-blue-400 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+            >
+              <Plus className="w-5 h-5" />
+            </Button>
+          </div>
         </CollapsibleContent>
       </Collapsible>
     </div>

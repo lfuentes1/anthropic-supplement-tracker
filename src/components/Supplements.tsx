@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Pill } from 'lucide-react';
 import AddSupplementForm from './AddSupplementForm';
@@ -11,6 +10,7 @@ interface SupplementsProps {
 const Supplements = ({ onActiveSupplementsChange }: SupplementsProps) => {
   const [supplements, setSupplements] = useState<Supplement[]>([]);
   const [checkedSupplements, setCheckedSupplements] = useState<string[]>([]);
+  const [shouldExpandMySupplements, setShouldExpandMySupplements] = useState(false);
 
   const handleAddSupplementFromForm = (supplementName: string) => {
     const newSupplement: Supplement = {
@@ -22,6 +22,7 @@ const Supplements = ({ onActiveSupplementsChange }: SupplementsProps) => {
     };
     
     setSupplements(prev => [...prev, newSupplement]);
+    setShouldExpandMySupplements(true);
     console.log('Added supplement:', supplementName);
   };
 
@@ -46,6 +47,10 @@ const Supplements = ({ onActiveSupplementsChange }: SupplementsProps) => {
     onActiveSupplementsChange?.(activeSupplements);
   };
 
+  const handleExpansionComplete = () => {
+    setShouldExpandMySupplements(false);
+  };
+
   return (
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between mb-6">
@@ -67,6 +72,8 @@ const Supplements = ({ onActiveSupplementsChange }: SupplementsProps) => {
           onDeleteSupplement={handleDeleteSupplement}
           checkedSupplements={checkedSupplements}
           onCheckedSupplementsChange={handleCheckedSupplementsChange}
+          shouldExpand={shouldExpandMySupplements}
+          onExpansionComplete={handleExpansionComplete}
         />
       </div>
       

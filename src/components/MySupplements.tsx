@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, ChevronUp, ChevronDown, Plus } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -28,6 +27,8 @@ interface MySupplementsProps {
   onDeleteSupplement: (id: string) => void;
   checkedSupplements: string[];
   onCheckedSupplementsChange: (checkedIds: string[]) => void;
+  shouldExpand?: boolean;
+  onExpansionComplete?: () => void;
 }
 
 const MySupplements = ({ 
@@ -36,10 +37,19 @@ const MySupplements = ({
   onUpdateSupplement, 
   onDeleteSupplement,
   checkedSupplements,
-  onCheckedSupplementsChange
+  onCheckedSupplementsChange,
+  shouldExpand = false,
+  onExpansionComplete
 }: MySupplementsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    if (shouldExpand && !isOpen) {
+      setIsOpen(true);
+      onExpansionComplete?.();
+    }
+  }, [shouldExpand, isOpen, onExpansionComplete]);
 
   const filteredSupplements = supplements.filter(supplement => {
     const query = searchQuery.toLowerCase();
