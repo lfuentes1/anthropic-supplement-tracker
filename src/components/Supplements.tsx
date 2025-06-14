@@ -4,8 +4,13 @@ import { Pill } from 'lucide-react';
 import AddSupplementForm from './AddSupplementForm';
 import MySupplements, { Supplement } from './MySupplements';
 
-const Supplements = () => {
+interface SupplementsProps {
+  onActiveSupplementsChange?: (activeSupplements: Supplement[]) => void;
+}
+
+const Supplements = ({ onActiveSupplementsChange }: SupplementsProps) => {
   const [supplements, setSupplements] = useState<Supplement[]>([]);
+  const [checkedSupplements, setCheckedSupplements] = useState<string[]>([]);
 
   const handleAddSupplementFromForm = (supplementName: string) => {
     const newSupplement: Supplement = {
@@ -30,6 +35,15 @@ const Supplements = () => {
 
   const handleDeleteSupplement = (id: string) => {
     setSupplements(prev => prev.filter(s => s.id !== id));
+    setCheckedSupplements(prev => prev.filter(checkedId => checkedId !== id));
+  };
+
+  const handleCheckedSupplementsChange = (checkedIds: string[]) => {
+    setCheckedSupplements(checkedIds);
+    
+    // Get active supplements and pass to parent
+    const activeSupplements = supplements.filter(s => checkedIds.includes(s.id));
+    onActiveSupplementsChange?.(activeSupplements);
   };
 
   return (
@@ -51,6 +65,8 @@ const Supplements = () => {
           onAddSupplement={handleAddSupplement}
           onUpdateSupplement={handleUpdateSupplement}
           onDeleteSupplement={handleDeleteSupplement}
+          checkedSupplements={checkedSupplements}
+          onCheckedSupplementsChange={handleCheckedSupplementsChange}
         />
       </div>
       

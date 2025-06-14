@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { ChevronUp, ChevronDown, X, Sparkles } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import { Checkbox } from './ui/checkbox';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import VitaminRow from './VitaminRow';
@@ -12,9 +12,11 @@ interface SupplementCardProps {
   supplement: Supplement;
   onUpdate: (supplement: Supplement) => void;
   onDelete: () => void;
+  isChecked: boolean;
+  onCheckedChange: (checked: boolean) => void;
 }
 
-const SupplementCard = ({ supplement, onUpdate, onDelete }: SupplementCardProps) => {
+const SupplementCard = ({ supplement, onUpdate, onDelete, isChecked, onCheckedChange }: SupplementCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleIntelliAdd = () => {
@@ -82,9 +84,9 @@ const SupplementCard = ({ supplement, onUpdate, onDelete }: SupplementCardProps)
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              className="w-4 h-4"
+            <Checkbox
+              checked={isChecked}
+              onCheckedChange={onCheckedChange}
             />
             <span className="font-medium">{supplement.name}</span>
           </div>

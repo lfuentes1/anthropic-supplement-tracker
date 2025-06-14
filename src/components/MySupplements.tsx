@@ -26,13 +26,17 @@ interface MySupplementsProps {
   onAddSupplement: (supplement: Supplement) => void;
   onUpdateSupplement: (id: string, supplement: Supplement) => void;
   onDeleteSupplement: (id: string) => void;
+  checkedSupplements: string[];
+  onCheckedSupplementsChange: (checkedIds: string[]) => void;
 }
 
 const MySupplements = ({ 
   supplements, 
   onAddSupplement, 
   onUpdateSupplement, 
-  onDeleteSupplement 
+  onDeleteSupplement,
+  checkedSupplements,
+  onCheckedSupplementsChange
 }: MySupplementsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -59,6 +63,14 @@ const MySupplements = ({
       }]
     };
     onAddSupplement(newSupplement);
+  };
+
+  const handleCheckedChange = (supplementId: string, checked: boolean) => {
+    if (checked) {
+      onCheckedSupplementsChange([...checkedSupplements, supplementId]);
+    } else {
+      onCheckedSupplementsChange(checkedSupplements.filter(id => id !== supplementId));
+    }
   };
 
   return (
@@ -96,6 +108,8 @@ const MySupplements = ({
               supplement={supplement}
               onUpdate={(updatedSupplement) => onUpdateSupplement(supplement.id, updatedSupplement)}
               onDelete={() => onDeleteSupplement(supplement.id)}
+              isChecked={checkedSupplements.includes(supplement.id)}
+              onCheckedChange={(checked) => handleCheckedChange(supplement.id, checked)}
             />
           ))}
           
