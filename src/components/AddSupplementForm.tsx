@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Upload, ChevronUp, ChevronDown } from 'lucide-react';
+import { Upload, ChevronUp, ChevronDown, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -61,15 +61,22 @@ const AddSupplementForm = ({ onAddSupplement }: AddSupplementFormProps) => {
           type="file"
           accept="image/*"
           onChange={onChange}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
         />
-        <div className="flex flex-col items-center justify-center h-full text-gray-500">
-          <Upload className="w-6 h-6 mb-1" />
-          <span className="text-xs">or drag & drop</span>
-        </div>
-        {file && (
-          <div className="absolute inset-0 bg-green-50 border-green-300 border-2 rounded-lg flex items-center justify-center">
-            <span className="text-xs text-green-700 px-2 text-center">{file.name}</span>
+        {!file ? (
+          <div className="flex flex-col items-center justify-center h-full text-gray-500">
+            <Upload className="w-6 h-6 mb-1" />
+            <span className="text-xs">or drag & drop</span>
+          </div>
+        ) : (
+          <div className="relative h-full bg-green-50 border-green-300 border-2 rounded-lg flex flex-col items-center justify-center p-2">
+            <div className="text-xs text-green-700 text-center mb-1 truncate w-full px-1">
+              {file.name}
+            </div>
+            <div className="text-xs text-gray-600 flex items-center">
+              <Upload className="w-3 h-3 mr-1" />
+              Click to change
+            </div>
           </div>
         )}
       </div>
@@ -100,7 +107,7 @@ const AddSupplementForm = ({ onAddSupplement }: AddSupplementFormProps) => {
             file={frontImage}
           />
           <ImageUploadArea
-            label="Nutrition Label"
+            label="Supplement Label"
             onChange={handleNutritionImageUpload}
             file={nutritionImage}
           />
