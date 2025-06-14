@@ -10,7 +10,7 @@ const Index = () => {
   const [activeSupplements, setActiveSupplements] = useState<Supplement[]>([]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: '#F5F0E8' }}>
       <Header />
       <main className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-120px)]">
