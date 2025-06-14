@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { Search, ChevronUp, ChevronDown, Plus } from 'lucide-react';
+import { Search, ChevronUp, ChevronDown } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
@@ -59,22 +60,6 @@ const MySupplements = ({
            );
   });
 
-  const handleAddVitamin = () => {
-    const newSupplement: Supplement = {
-      id: Date.now().toString(),
-      name: 'New Supplement',
-      servingSize: 1,
-      servingUnit: 'capsule',
-      nutrients: [{
-        id: Date.now().toString(),
-        name: 'Vitamin C',
-        amount: 30,
-        unit: 'mg'
-      }]
-    };
-    onAddSupplement(newSupplement);
-  };
-
   const handleCheckedChange = (supplementId: string, checked: boolean) => {
     if (checked) {
       onCheckedSupplementsChange([...checkedSupplements, supplementId]);
@@ -128,17 +113,6 @@ const MySupplements = ({
               No supplements found matching "{searchQuery}"
             </div>
           )}
-        </div>
-        
-        <div className="flex justify-center pt-4">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={handleAddVitamin}
-            className="rounded-full w-12 h-12 border-gray-300 hover:border-gray-400"
-          >
-            <Plus className="w-6 h-6" />
-          </Button>
         </div>
       </CollapsibleContent>
     </Collapsible>

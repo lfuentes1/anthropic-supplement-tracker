@@ -39,7 +39,7 @@ const SupplementCard = ({ supplement, onUpdate, onDelete, isChecked, onCheckedCh
   const handleServingSizeChange = (value: string) => {
     onUpdate({
       ...supplement,
-      servingSize: parseInt(value) || 1
+      servingSize: parseFloat(value) || 1
     });
   };
 
@@ -69,7 +69,7 @@ const SupplementCard = ({ supplement, onUpdate, onDelete, isChecked, onCheckedCh
   const handleAddNutrient = () => {
     const newNutrient: Nutrient = {
       id: Date.now().toString(),
-      name: 'New Vitamin',
+      name: 'Vitamin C',
       amount: 0,
       unit: 'mg'
     };
@@ -129,7 +129,8 @@ const SupplementCard = ({ supplement, onUpdate, onDelete, isChecked, onCheckedCh
                 value={supplement.servingSize}
                 onChange={(e) => handleServingSizeChange(e.target.value)}
                 className="w-24 h-8 text-sm"
-                min="1"
+                min="0.1"
+                step="0.1"
               />
               <Select value={supplement.servingUnit} onValueChange={handleServingUnitChange}>
                 <SelectTrigger className="w-36 h-8 text-sm">
