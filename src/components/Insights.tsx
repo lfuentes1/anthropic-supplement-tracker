@@ -1,12 +1,8 @@
 
-import React, { useState } from 'react';
-import { BarChart3, TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Textarea } from '@/components/ui/textarea';
+import React from 'react';
+import { BarChart3, TrendingUp } from 'lucide-react';
 
 const Insights = () => {
-  const [isIntelliPromptsOpen, setIsIntelliPromptsOpen] = useState(false);
-
   return (
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between mb-6">
@@ -20,35 +16,6 @@ const Insights = () => {
           View All
         </button>
       </div>
-
-      {/* IntelliPrompts Section */}
-      <Collapsible open={isIntelliPromptsOpen} onOpenChange={setIsIntelliPromptsOpen}>
-        <CollapsibleTrigger className="w-full">
-          <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors mb-4">
-            <div className="flex items-center space-x-2">
-              <span className="text-purple-600 font-medium">IntelliPrompts</span>
-              <span className="text-purple-400">✨</span>
-            </div>
-            {isIntelliPromptsOpen ? (
-              <ChevronUp className="w-4 h-4 text-purple-600" />
-            ) : (
-              <ChevronDown className="w-4 h-4 text-purple-600" />
-            )}
-          </div>
-        </CollapsibleTrigger>
-        
-        <CollapsibleContent className="mb-6">
-          <div className="border rounded-lg p-4 bg-white">
-            <div className="mb-4">
-              <Textarea
-                placeholder="Ask anything&#10;Example questions:&#10;e.g. Are there any recalls for the supplements that I am taking?&#10;e.g. Can you recommend supplements that have been evaluated by independent 3rd party companies?&#10;&#10;Example commands:&#10;e.g. Anytime my supplement intake changes, provide me with absorption tips.&#10;e.g. Always use IntelliAdd when I add a new supplement.&#10;e.g. Send me a text when I forget to take my daily supplements."
-                className="min-h-[120px] resize-none"
-                rows={6}
-              />
-            </div>
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
       
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center py-12">
