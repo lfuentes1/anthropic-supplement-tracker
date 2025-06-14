@@ -1,0 +1,124 @@
+
+import React, { useState } from 'react';
+import { Search, ChevronUp, ChevronDown, Plus } from 'lucide-react';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
+import SupplementCard from './SupplementCard';
+
+export interface Nutrient {
+  id: string;
+  name: string;
+  amount: number;
+  unit: string;
+}
+
+export interface Supplement {
+  id: string;
+  name: string;
+  servingSize: number;
+  servingUnit: string;
+  nutrients: Nutrient[];
+}
+
+interface MySupplementsProps {
+  supplements: Supplement[];
+  onAddSupplement: (supplement: Supplement) => void;
+  onUpdateSupplement: (id: string, supplement: Supplement) => void;
+  onDeleteSupplement: (id: string) => void;
+}
+
+const MySupplements = ({ 
+  supplements, 
+  onAddSupplement, 
+  onUpdateSupplement, 
+  onDeleteSupplement 
+}: MySupplementsProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredSupplements = supplements.filter(supplement => {
+    const query = searchQuery.toLowerCase();
+    return supplement.name.toLowerCase().includes(query) ||
+           supplement.nutrients.some(nutrient => 
+             nutrient.name.toLowerCase().includes(query)
+           );
+  });
+
+  const handleAddVitamin = () => {
+    const newSupplement: Supplement = {
+      id: Date.now().toString(),
+      name: 'New Supplement',
+      servingSize: 1,
+      servingUnit: 'capsule',
+      nutrients: [{
+        id: Date.now().toString(),
+        name: 'Vitamin C',
+        amount: 30,
+        unit: 'mg'
+      }]
+    };
+    onAddSupplement(newSupplement);
+  };
+
+  return (
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <CollapsibleTrigger asChild>
+        <Button
+          variant="outline"
+          className="w-full justify-between border-gray-300 hover:border-gray-400"
+        >
+          <span className="font-medium">My Supplements</span>
+          {isOpen ? (
+            <ChevronUp className="w-4 h-4" />
+          ) : (
+            <ChevronDown className="w-4 h-4" />
+          )}
+        </Button>
+      </CollapsibleTrigger>
+      
+      <CollapsibleContent className="mt-4 space-y-4">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Input
+            type="text"
+            placeholder="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 w-full"
+          />
+        </div>
+        
+        <div className="space-y-3">
+          {filteredSupplements.map((supplement) => (
+            <SupplementCard
+              key={supplement.id}
+              supplement={supplement}
+              onUpdate={(updatedSupplement) => onUpdateSupplement(supplement.id, updatedSupplement)}
+              onDelete={() => onDeleteSupplement(supplement.id)}
+            />
+          ))}
+          
+          {filteredSupplements.length === 0 && supplements.length > 0 && (
+            <div className="text-center py-4 text-gray-500">
+              No supplements found matching "{searchQuery}"
+            </div>
+          )}
+        </div>
+        
+        <div className="flex justify-center pt-4">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleAddVitamin}
+            className="rounded-full w-12 h-12 border-gray-300 hover:border-gray-400"
+          >
+            <Plus className="w-6 h-6" />
+          </Button>
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+};
+
+export default MySupplements;

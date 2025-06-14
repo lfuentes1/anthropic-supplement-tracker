@@ -1,9 +1,37 @@
 
-import React from 'react';
-import { Pill, Plus } from 'lucide-react';
+import React, { useState } from 'react';
+import { Pill } from 'lucide-react';
 import AddSupplementForm from './AddSupplementForm';
+import MySupplements, { Supplement } from './MySupplements';
 
 const Supplements = () => {
+  const [supplements, setSupplements] = useState<Supplement[]>([]);
+
+  const handleAddSupplementFromForm = (supplementName: string) => {
+    const newSupplement: Supplement = {
+      id: Date.now().toString(),
+      name: supplementName,
+      servingSize: 1,
+      servingUnit: 'capsule',
+      nutrients: []
+    };
+    
+    setSupplements(prev => [...prev, newSupplement]);
+    console.log('Added supplement:', supplementName);
+  };
+
+  const handleAddSupplement = (supplement: Supplement) => {
+    setSupplements(prev => [...prev, supplement]);
+  };
+
+  const handleUpdateSupplement = (id: string, updatedSupplement: Supplement) => {
+    setSupplements(prev => prev.map(s => s.id === id ? updatedSupplement : s));
+  };
+
+  const handleDeleteSupplement = (id: string) => {
+    setSupplements(prev => prev.filter(s => s.id !== id));
+  };
+
   return (
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between mb-6">
@@ -15,22 +43,31 @@ const Supplements = () => {
         </div>
       </div>
       
-      <div className="mb-6">
-        <AddSupplementForm />
+      <div className="space-y-4">
+        <AddSupplementForm onAddSupplement={handleAddSupplementFromForm} />
+        
+        <MySupplements
+          supplements={supplements}
+          onAddSupplement={handleAddSupplement}
+          onUpdateSupplement={handleUpdateSupplement}
+          onDeleteSupplement={handleDeleteSupplement}
+        />
       </div>
       
-      <div className="flex-1 flex items-center justify-center">
-        <div className="text-center py-12">
-          <div className="flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4">
-            <Pill className="w-8 h-8 text-gray-400" />
+      {supplements.length === 0 && (
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center py-12">
+            <div className="flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4">
+              <Pill className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No supplements added yet</h3>
+            <p className="text-gray-500 mb-4">Start by adding your first supplement to track your intake.</p>
+            <p className="text-sm text-gray-400">
+              Use the "Add Supplement" form above to get started
+            </p>
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No supplements added yet</h3>
-          <p className="text-gray-500 mb-4">Start by adding your first supplement to track your intake.</p>
-          <p className="text-sm text-gray-400">
-            Use the "Add Supplement" form above to get started
-          </p>
         </div>
-      </div>
+      )}
     </div>
   );
 };

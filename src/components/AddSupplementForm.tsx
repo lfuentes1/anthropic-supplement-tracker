@@ -6,7 +6,11 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 
-const AddSupplementForm = () => {
+interface AddSupplementFormProps {
+  onAddSupplement: (supplementName: string) => void;
+}
+
+const AddSupplementForm = ({ onAddSupplement }: AddSupplementFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [supplementName, setSupplementName] = useState('');
   const [frontImage, setFrontImage] = useState<File | null>(null);
@@ -32,7 +36,7 @@ const AddSupplementForm = () => {
 
   const handleAddSupplement = () => {
     if (supplementName.trim()) {
-      console.log('Adding supplement:', supplementName);
+      onAddSupplement(supplementName.trim());
       // Reset form
       setSupplementName('');
       setFrontImage(null);
