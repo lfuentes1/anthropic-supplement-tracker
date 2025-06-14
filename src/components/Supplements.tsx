@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Pill } from 'lucide-react';
 import AddSupplementForm from './AddSupplementForm';
@@ -75,22 +76,13 @@ const Supplements = ({ onActiveSupplementsChange }: SupplementsProps) => {
           shouldExpand={shouldExpandMySupplements}
           onExpansionComplete={handleExpansionComplete}
         />
-      </div>
-      
-      {supplements.length === 0 && (
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center py-12">
-            <div className="flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4">
-              <Pill className="w-8 h-8 text-gray-400" />
-            </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No supplements added yet</h3>
-            <p className="text-gray-500 mb-4">Start by adding your first supplement to track your intake.</p>
-            <p className="text-sm text-gray-400">
-              Use the "Add Supplement" form above to get started
-            </p>
+        
+        {supplements.length === 0 && (
+          <div className="text-center py-4 text-gray-500">
+            <p>No supplements added yet. Start by adding your first supplement to track your intake.</p>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
