@@ -7,12 +7,32 @@ import { Button } from '@/components/ui/button';
 
 const Insights = () => {
   const [isIntelliPromptsOpen, setIsIntelliPromptsOpen] = useState(true);
+  const [isIntelliNoticesOpen, setIsIntelliNoticesOpen] = useState(true);
 
   const questionButtons = [
     "Recalls for My Supplements?",
     "Give me absorption tips.",
     "Recommend Brands, please.",
     "Always use IntelliAdd."
+  ];
+
+  const notices = [
+    {
+      date: "6/14/2025:",
+      text: "You made IntelliAdd default. When you add new supplements, IntelliAdd will add the supplement facts for you."
+    },
+    {
+      date: "6/14/2025:",
+      text: "You turned on reminder texts daily at 5:00 p.m. when you haven't taken your daily supplements."
+    },
+    {
+      date: "6/14/2025:",
+      text: "Based on your active supplements, X brand was recalled by the FDA. Read more here."
+    },
+    {
+      date: "6/15/2025:",
+      text: "Reminder: You haven't taken your daily supplements."
+    }
   ];
 
   return (
@@ -66,6 +86,33 @@ const Insights = () => {
                 </Button>
               ))}
             </div>
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+
+      {/* IntelliNotices Section */}
+      <Collapsible open={isIntelliNoticesOpen} onOpenChange={setIsIntelliNoticesOpen}>
+        <CollapsibleTrigger className="w-full">
+          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors mb-4 border">
+            <div className="flex items-center space-x-2">
+              <span className="text-gray-900 font-medium">IntelliNotices</span>
+              <span className="text-purple-500">✨</span>
+            </div>
+            {isIntelliNoticesOpen ? (
+              <ChevronUp className="w-4 h-4 text-gray-600" />
+            ) : (
+              <ChevronDown className="w-4 h-4 text-gray-600" />
+            )}
+          </div>
+        </CollapsibleTrigger>
+        
+        <CollapsibleContent className="mb-6">
+          <div className="border rounded-lg p-4 bg-white space-y-3">
+            {notices.map((notice, index) => (
+              <div key={index} className="text-sm text-gray-600 leading-relaxed">
+                <span className="font-medium text-gray-700">{notice.date}</span> {notice.text}
+              </div>
+            ))}
           </div>
         </CollapsibleContent>
       </Collapsible>
