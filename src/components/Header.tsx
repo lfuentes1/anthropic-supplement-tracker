@@ -8,7 +8,18 @@ const Header = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-600">
-              <span className="text-white font-bold text-lg">ID</span>
+              <img 
+                src="/b860a06d-2fa5-4c08-ab98-8768cd6893f1.png" 
+                alt="IntelliDose Logo" 
+                className="w-8 h-8 object-contain"
+                onError={(e) => {
+                  console.log('Image failed to load from:', e.currentTarget.src);
+                  console.log('Falling back to text logo');
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.parentElement!.innerHTML = '<span class="text-white font-bold text-lg">ID</span>';
+                }}
+                onLoad={() => console.log('Logo image loaded successfully from:', '/b860a06d-2fa5-4c08-ab98-8768cd6893f1.png')}
+              />
             </div>
             <div className="flex flex-col">
               <h1 className="text-2xl font-bold text-gray-900">IntelliDose</h1>
