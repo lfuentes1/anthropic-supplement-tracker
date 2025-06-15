@@ -12,21 +12,23 @@ const Index = () => {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F5F0E8' }}>
-      <Header />
-      <main className="container mx-auto px-4 py-6 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-120px)]">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-            <Supplements onActiveSupplementsChange={setActiveSupplements} />
+      <div className="min-h-screen" style={{ backgroundColor: '#F5F0E8' }}>
+        <Header />
+        <main className="container mx-auto px-4 py-6 pb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+              <Supplements onActiveSupplementsChange={setActiveSupplements} />
+            </div>
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+              <IntakeTracker activeSupplements={activeSupplements} />
+            </div>
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+              <Insights />
+            </div>
           </div>
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-            <IntakeTracker activeSupplements={activeSupplements} />
-          </div>
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-            <Insights />
-          </div>
-        </div>
-      </main>
-      <Footer />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 };

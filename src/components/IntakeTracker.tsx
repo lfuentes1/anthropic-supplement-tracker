@@ -126,7 +126,7 @@ const IntakeTracker = ({ activeSupplements = [] }: IntakeTrackerProps) => {
     .map(n => ({ ...n, intake: 0 }));
 
   return (
-    <div className="h-full flex flex-col" key={refreshKey}>
+    <div className="h-full flex flex-col overflow-y-auto max-h-[calc(100vh-200px)]" key={refreshKey}>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
           <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
@@ -177,7 +177,7 @@ const IntakeTracker = ({ activeSupplements = [] }: IntakeTrackerProps) => {
         </div>
       </div>
       
-      <div className="space-y-4">
+      <div className="space-y-4 flex-1 pb-4">
         {/* Active Vitamins & Minerals */}
         <Collapsible open={activeOpen} onOpenChange={setActiveOpen}>
           <CollapsibleTrigger asChild>
