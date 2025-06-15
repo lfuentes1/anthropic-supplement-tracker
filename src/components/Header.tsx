@@ -8,7 +8,7 @@ const Header = () => {
           <div className="flex items-center space-x-3">
             <div className="flex items-center justify-center w-[75px] h-[75px] rounded-lg bg-transparent">
               <img 
-                src="/lovable-uploads/25f1c559-b32f-4727-806d-66731a23df9d.png" 
+                src="/lovable-uploads/e0eec838-c3bd-4f89-b638-6825b3434b53.png" 
                 alt="IntelliDose Logo" 
                 className="w-8 h-8 object-contain"
                 onError={(e) => {
@@ -17,7 +17,7 @@ const Header = () => {
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.parentElement!.innerHTML = '<span class="text-blue-600 font-bold text-lg">ID</span>';
                 }}
-                onLoad={() => console.log('Logo image loaded successfully from:', '/lovable-uploads/25f1c559-b32f-4727-806d-66731a23df9d.png')}
+                onLoad={() => console.log('Logo image loaded successfully from:', '/lovable-uploads/e0eec838-c3bd-4f89-b638-6825b3434b53.png')}
               />
             </div>
             <div className="flex flex-col">
