@@ -6,7 +6,7 @@ const Header = () => {
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-transparent">
+            <div className="flex items-center justify-center w-[75px] h-[75px] rounded-lg bg-transparent">
               <img 
                 src="/lovable-uploads/25f1c559-b32f-4727-806d-66731a23df9d.png" 
                 alt="IntelliDose Logo" 
