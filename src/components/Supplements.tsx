@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Pill } from 'lucide-react';
 import AddSupplementForm from './AddSupplementForm';
 import MySupplements, { Supplement } from './MySupplements';
@@ -12,6 +12,12 @@ const Supplements = ({ onActiveSupplementsChange }: SupplementsProps) => {
   const [supplements, setSupplements] = useState<Supplement[]>([]);
   const [checkedSupplements, setCheckedSupplements] = useState<string[]>([]);
   const [shouldExpandMySupplements, setShouldExpandMySupplements] = useState(false);
+
+  // Update active supplements whenever supplements or checked state changes
+  useEffect(() => {
+    const activeSupplements = supplements.filter(s => checkedSupplements.includes(s.id));
+    onActiveSupplementsChange?.(activeSupplements);
+  }, [supplements, checkedSupplements, onActiveSupplementsChange]);
 
   const handleAddSupplementFromForm = (supplementName: string) => {
     const newSupplement: Supplement = {
@@ -42,10 +48,6 @@ const Supplements = ({ onActiveSupplementsChange }: SupplementsProps) => {
 
   const handleCheckedSupplementsChange = (checkedIds: string[]) => {
     setCheckedSupplements(checkedIds);
-    
-    // Get active supplements and pass to parent
-    const activeSupplements = supplements.filter(s => checkedIds.includes(s.id));
-    onActiveSupplementsChange?.(activeSupplements);
   };
 
   const handleExpansionComplete = () => {
