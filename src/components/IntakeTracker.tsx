@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Calendar, ChevronUp, ChevronDown, CalendarIcon } from 'lucide-react';
 import { Button } from './ui/button';
@@ -23,22 +24,40 @@ const IntakeTracker = ({ activeSupplements = [] }: IntakeTrackerProps) => {
 
   // Calculate active nutrients from checked supplements
   const getActiveNutrients = () => {
-    const activeNutrientMap = new Map<string, { amount: number; unit: string }>();
+    const activeNutrientMap = new Map<string, { amount: number; unit: string; fdaMatch?: FDADailyValue }>();
     
     activeSupplements.forEach(supplement => {
       supplement.nutrients.forEach(nutrient => {
-        const existing = activeNutrientMap.get(nutrient.name);
-        if (existing) {
-          // Convert units if needed and sum amounts
-          activeNutrientMap.set(nutrient.name, {
-            amount: existing.amount + nutrient.amount,
-            unit: nutrient.unit
-          });
-        } else {
-          activeNutrientMap.set(nutrient.name, {
-            amount: nutrient.amount,
-            unit: nutrient.unit
-          });
+        // Find FDA match for this nutrient
+        const fdaMatch = FDA_DAILY_VALUES.find(fdaValue => {
+          const normalizedFdaName = fdaValue.name.toLowerCase();
+          const normalizedNutrientName = nutrient.name.toLowerCase();
+          
+          // More flexible matching
+          return normalizedNutrientName.includes(normalizedFdaName.split(' ')[0]) ||
+                 normalizedFdaName.includes(normalizedNutrientName) ||
+                 normalizedFdaName.includes(normalizedNutrientName.split(' ')[0]) ||
+                 normalizedNutrientName.includes(normalizedFdaName);
+        });
+
+        if (fdaMatch) {
+          const key = fdaMatch.name; // Use FDA name as the key for consistency
+          const existing = activeNutrientMap.get(key);
+          
+          if (existing) {
+            // Sum the amounts for the same nutrient
+            activeNutrientMap.set(key, {
+              amount: existing.amount + nutrient.amount,
+              unit: fdaMatch.unit, // Use FDA unit for consistency
+              fdaMatch: fdaMatch
+            });
+          } else {
+            activeNutrientMap.set(key, {
+              amount: nutrient.amount,
+              unit: fdaMatch.unit,
+              fdaMatch: fdaMatch
+            });
+          }
         }
       });
     });
@@ -50,37 +69,25 @@ const IntakeTracker = ({ activeSupplements = [] }: IntakeTrackerProps) => {
   const getMissingNutrients = () => {
     const activeNutrients = getActiveNutrients();
     return FDA_DAILY_VALUES.filter(fdaValue => {
-      const normalizedName = fdaValue.name.toLowerCase();
-      const hasMatch = Array.from(activeNutrients.keys()).some(activeName => 
-        activeName.toLowerCase().includes(normalizedName.split(' ')[0]) ||
-        normalizedName.includes(activeName.toLowerCase())
-      );
-      return !hasMatch;
+      return !activeNutrients.has(fdaValue.name);
     });
   };
 
-  // Get active nutrients with FDA values
+  // Get active nutrients with FDA values organized by category
   const getActiveNutrientsWithDV = () => {
     const activeNutrients = getActiveNutrients();
     const result: { vitamins: any[], minerals: any[] } = { vitamins: [], minerals: [] };
 
     activeNutrients.forEach((nutrientData, name) => {
-      const fdaMatch = FDA_DAILY_VALUES.find(fdaValue => {
-        const normalizedFdaName = fdaValue.name.toLowerCase();
-        const normalizedNutrientName = name.toLowerCase();
-        return normalizedNutrientName.includes(normalizedFdaName.split(' ')[0]) ||
-               normalizedFdaName.includes(normalizedNutrientName);
-      });
-
-      if (fdaMatch) {
+      if (nutrientData.fdaMatch) {
         const nutrientInfo = {
-          name: fdaMatch.name,
-          dv: fdaMatch.dv,
-          unit: fdaMatch.unit,
+          name: nutrientData.fdaMatch.name,
+          dv: nutrientData.fdaMatch.dv,
+          unit: nutrientData.fdaMatch.unit,
           intake: nutrientData.amount
         };
 
-        if (fdaMatch.category === 'vitamin') {
+        if (nutrientData.fdaMatch.category === 'vitamin') {
           result.vitamins.push(nutrientInfo);
         } else {
           result.minerals.push(nutrientInfo);
