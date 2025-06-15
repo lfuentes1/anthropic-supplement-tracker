@@ -25,7 +25,7 @@ const IntakeTracker = ({ activeSupplements = [] }: IntakeTrackerProps) => {
   // Force re-render when activeSupplements or their nutrients change
   useEffect(() => {
     setRefreshKey(prev => prev + 1);
-  }, [activeSupplements, activeSupplements.map(s => s.nutrients).flat()]);
+  }, [JSON.stringify(activeSupplements)]);
 
   // Calculate active nutrients from checked supplements
   const getActiveNutrients = () => {
@@ -35,37 +35,21 @@ const IntakeTracker = ({ activeSupplements = [] }: IntakeTrackerProps) => {
       supplement.nutrients.forEach(nutrient => {
         // Find FDA match for this nutrient with precise matching
         const fdaMatch = FDA_DAILY_VALUES.find(fdaValue => {
-          const normalizedFdaName = fdaValue.name.toLowerCase();
-          const normalizedNutrientName = nutrient.name.toLowerCase();
+          const normalizedFdaName = fdaValue.name.toLowerCase().trim();
+          const normalizedNutrientName = nutrient.name.toLowerCase().trim();
           
           // First try exact match
           if (normalizedFdaName === normalizedNutrientName) {
             return true;
           }
           
-          // Then try specific vitamin/mineral matches
-          if (normalizedNutrientName === 'vitamin c' && normalizedFdaName === 'vitamin c') return true;
-          if (normalizedNutrientName === 'vitamin a' && normalizedFdaName === 'vitamin a') return true;
-          if (normalizedNutrientName === 'vitamin d' && normalizedFdaName === 'vitamin d') return true;
-          if (normalizedNutrientName === 'vitamin e' && normalizedFdaName === 'vitamin e') return true;
-          if (normalizedNutrientName === 'vitamin k' && normalizedFdaName === 'vitamin k') return true;
-          if (normalizedNutrientName === 'vitamin b6' && normalizedFdaName === 'vitamin b6') return true;
-          if (normalizedNutrientName === 'vitamin b12' && normalizedFdaName === 'vitamin b12') return true;
-          
-          // Handle B-vitamins with alternative names
-          if (normalizedNutrientName === 'thiamine' && normalizedFdaName.includes('thiamine')) return true;
-          if (normalizedNutrientName === 'riboflavin' && normalizedFdaName.includes('riboflavin')) return true;
-          if (normalizedNutrientName === 'niacin' && normalizedFdaName.includes('niacin')) return true;
-          if (normalizedNutrientName === 'folate' && normalizedFdaName === 'folate') return true;
-          if (normalizedNutrientName === 'biotin' && normalizedFdaName === 'biotin') return true;
-          if (normalizedNutrientName === 'pantothenic acid' && normalizedFdaName === 'pantothenic acid') return true;
-          
-          // Handle common minerals
-          if (normalizedNutrientName === 'calcium' && normalizedFdaName === 'calcium') return true;
-          if (normalizedNutrientName === 'iron' && normalizedFdaName === 'iron') return true;
-          if (normalizedNutrientName === 'magnesium' && normalizedFdaName === 'magnesium') return true;
-          if (normalizedNutrientName === 'zinc' && normalizedFdaName === 'zinc') return true;
-          if (normalizedNutrientName === 'selenium' && normalizedFdaName === 'selenium') return true;
+          // Handle B-vitamins with alternative names - more specific matching
+          if (normalizedNutrientName === 'thiamine' && normalizedFdaName === 'vitamin b1 (thiamine)') return true;
+          if (normalizedNutrientName === 'vitamin b1' && normalizedFdaName === 'vitamin b1 (thiamine)') return true;
+          if (normalizedNutrientName === 'riboflavin' && normalizedFdaName === 'vitamin b2 (riboflavin)') return true;
+          if (normalizedNutrientName === 'vitamin b2' && normalizedFdaName === 'vitamin b2 (riboflavin)') return true;
+          if (normalizedNutrientName === 'niacin' && normalizedFdaName === 'vitamin b3 (niacin)') return true;
+          if (normalizedNutrientName === 'vitamin b3' && normalizedFdaName === 'vitamin b3 (niacin)') return true;
           
           return false;
         });
