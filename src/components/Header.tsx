@@ -12,6 +12,11 @@ const Header = () => {
                 src="/lovable-uploads/b860a06d-2fa5-4c08-ab98-8768cd6893f1.png" 
                 alt="IntelliDose Logo" 
                 className="w-6 h-6"
+                onError={(e) => {
+                  console.log('Image failed to load:', e.currentTarget.src);
+                  e.currentTarget.style.display = 'none';
+                }}
+                onLoad={() => console.log('Image loaded successfully')}
               />
             </div>
             <div className="flex flex-col">
