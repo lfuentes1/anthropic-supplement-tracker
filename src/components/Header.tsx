@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const Header = () => {
@@ -7,7 +6,7 @@ const Header = () => {
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-600">
+            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-white border border-gray-200">
               <img 
                 src="/lovable-uploads/7e597585-c8bc-47cf-80f2-51a4cb4889af.png" 
                 alt="IntelliDose Logo" 
@@ -16,7 +15,7 @@ const Header = () => {
                   console.log('Image failed to load from:', e.currentTarget.src);
                   console.log('Falling back to text logo');
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = '<span class="text-white font-bold text-lg">ID</span>';
+                  e.currentTarget.parentElement!.innerHTML = '<span class="text-blue-600 font-bold text-lg">ID</span>';
                 }}
                 onLoad={() => console.log('Logo image loaded successfully from:', '/lovable-uploads/7e597585-c8bc-47cf-80f2-51a4cb4889af.png')}
               />
