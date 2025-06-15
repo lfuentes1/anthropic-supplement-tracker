@@ -7,17 +7,8 @@ const Header = () => {
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg">
-              <img 
-                src="/lovable-uploads/b860a06d-2fa5-4c08-ab98-8768cd6893f1.png" 
-                alt="IntelliDose Logo" 
-                className="w-6 h-6"
-                onError={(e) => {
-                  console.log('Image failed to load:', e.currentTarget.src);
-                  e.currentTarget.style.display = 'none';
-                }}
-                onLoad={() => console.log('Image loaded successfully')}
-              />
+            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-600">
+              <span className="text-white font-bold text-lg">ID</span>
             </div>
             <div className="flex flex-col">
               <h1 className="text-2xl font-bold text-gray-900">IntelliDose</h1>
