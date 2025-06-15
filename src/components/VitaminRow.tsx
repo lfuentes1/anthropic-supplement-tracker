@@ -98,7 +98,6 @@ const VitaminRow = ({ nutrient, onUpdate, onDelete }: VitaminRowProps) => {
             </div>
             {filteredSuggestions
               .filter(suggestion => suggestion.category === 'vitamin')
-              .slice(0, 10)
               .map((suggestion, index) => (
                 <div
                   key={`vitamin-${index}`}
@@ -114,7 +113,6 @@ const VitaminRow = ({ nutrient, onUpdate, onDelete }: VitaminRowProps) => {
             </div>
             {filteredSuggestions
               .filter(suggestion => suggestion.category === 'mineral')
-              .slice(0, 10)
               .map((suggestion, index) => (
                 <div
                   key={`mineral-${index}`}
