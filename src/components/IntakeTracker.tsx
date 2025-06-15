@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, ChevronUp, ChevronDown, CalendarIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import { Switch } from './ui/switch';
@@ -20,6 +20,12 @@ const IntakeTracker = ({ activeSupplements = [] }: IntakeTrackerProps) => {
   const [missingOpen, setMissingOpen] = useState(true);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isToggleOn, setIsToggleOn] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  // Force re-render when activeSupplements or their nutrients change
+  useEffect(() => {
+    setRefreshKey(prev => prev + 1);
+  }, [activeSupplements, activeSupplements.map(s => s.nutrients).flat()]);
 
   // Calculate active nutrients from checked supplements
   const getActiveNutrients = () => {
@@ -136,7 +142,7 @@ const IntakeTracker = ({ activeSupplements = [] }: IntakeTrackerProps) => {
     .map(n => ({ ...n, intake: 0 }));
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col" key={refreshKey}>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
           <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
