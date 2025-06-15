@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Activity } from 'lucide-react';
 
 const Header = () => {
   return (
@@ -9,7 +8,11 @@ const Header = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-lg">
-              <Activity className="w-6 h-6 text-blue-600" />
+              <img 
+                src="/lovable-uploads/b860a06d-2fa5-4c08-ab98-8768cd6893f1.png" 
+                alt="IntelliDose Logo" 
+                className="w-6 h-6"
+              />
             </div>
             <div className="flex flex-col">
               <h1 className="text-2xl font-bold text-gray-900">IntelliDose</h1>
