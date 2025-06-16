@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ChevronUp, ChevronDown, X, Sparkles, Plus } from 'lucide-react';
+import { ChevronUp, ChevronDown, X, Bolt, Plus, Slash } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Checkbox } from './ui/checkbox';
@@ -19,6 +19,9 @@ interface SupplementCardProps {
 
 const SupplementCard = ({ supplement, onUpdate, onDelete, isChecked, onCheckedChange }: SupplementCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Check if supplement has label image - for now we'll assume it doesn't since we don't track this yet
+  const hasLabelImage = false; // This would be determined by whether a supplement label image was uploaded
 
   const handleIntelliAdd = () => {
     // Auto-populate common vitamins - in a real app, this would analyze the nutrition label
@@ -96,9 +99,17 @@ const SupplementCard = ({ supplement, onUpdate, onDelete, isChecked, onCheckedCh
               variant="ghost"
               size="icon"
               onClick={handleIntelliAdd}
-              className="w-8 h-8 text-purple-600 hover:text-purple-700"
+              disabled={!hasLabelImage}
+              className={`w-8 h-8 relative ${
+                hasLabelImage 
+                  ? 'text-blue-600 hover:text-blue-700' 
+                  : 'text-gray-400 cursor-not-allowed'
+              }`}
             >
-              <Sparkles className="w-4 h-4" />
+              <Bolt className="w-4 h-4" />
+              {!hasLabelImage && (
+                <Slash className="w-4 h-4 absolute inset-0 text-gray-400" />
+              )}
             </Button>
             <Button
               variant="ghost"
