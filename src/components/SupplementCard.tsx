@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ChevronUp, ChevronDown, X, Bolt, Plus, Slash } from 'lucide-react';
 import { Button } from './ui/button';
@@ -102,7 +101,7 @@ const SupplementCard = ({ supplement, onUpdate, onDelete, isChecked, onCheckedCh
               disabled={!hasLabelImage}
               className={`w-8 h-8 relative ${
                 hasLabelImage 
-                  ? 'text-blue-600 hover:text-blue-700' 
+                  ? 'text-purple-600 hover:text-purple-700' 
                   : 'text-gray-400 cursor-not-allowed'
               }`}
             >
