@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronUp, ChevronDown, X, Bolt, Plus, Slash } from 'lucide-react';
+import { ChevronUp, ChevronDown, X, ZapOff, Plus } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Checkbox } from './ui/checkbox';
@@ -99,16 +99,13 @@ const SupplementCard = ({ supplement, onUpdate, onDelete, isChecked, onCheckedCh
               size="icon"
               onClick={handleIntelliAdd}
               disabled={!hasLabelImage}
-              className={`w-8 h-8 relative ${
+              className={`w-8 h-8 ${
                 hasLabelImage 
                   ? 'text-purple-600 hover:text-purple-700' 
                   : 'text-gray-400 cursor-not-allowed'
               }`}
             >
-              <Bolt className="w-4 h-4" />
-              {!hasLabelImage && (
-                <Slash className="w-4 h-4 absolute inset-0 text-gray-400" />
-              )}
+              <ZapOff className="w-4 h-4" />
             </Button>
             <Button
               variant="ghost"
